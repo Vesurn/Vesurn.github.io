@@ -1,0 +1,39 @@
+
+#question-list > li {
+    border: 4px solid black;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+}
+
+#question-text {
+    display: block;
+    box-sizing: border-box;
+    resize: none;
+    border: 2px solid black;
+    border-radius: 4px;
+    width: 100%;
+}
+
+#question-text[contenteditable]:empty::before {
+    content: "Your question here...";
+    color: gray;
+}
+
+
+
+#answer-list {
+    padding: 0px 10px 10px 10px;
+}
+#answer-text {
+    display: block;
+    box-sizing: border-box;
+    resize: none;
+    border: 2px solid black;
+    border-radius: 4px;
+    width: 100%;
+}
+#answer-text[contenteditable]:empty::before {
+    content: "Your answer here...";
+    color: gray;
+}
