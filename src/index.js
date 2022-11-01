@@ -127,3 +127,16 @@ function download(filename, text) {
 
 const downloadButton = document.querySelector("#download")
 downloadButton.onclick = () => download("questions.json", JSON.stringify(readForm(), null, 2))
+
+
+const uploadInput = document.querySelector("#upload")
+uploadInput.addEventListener("change", () => {
+    const file = this.files[0]
+
+    // Read the contents of the file
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        e.target.result
+    }
+    reader.readAsText(file)
+})

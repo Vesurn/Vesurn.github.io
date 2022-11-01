@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question Editor</title>
-    
+
     <link href="src/style.css" rel="stylesheet"></link>
 </head>
 <body>
@@ -73,8 +73,11 @@
         </li...-->
     </ol>
     <button onclick="createQuestion()">Add Question</button>
-    <button onclick="readForm()">Read form</button>
-    <button id="download">Download form in JSON</button>
+    <button id="download">Download form in JSON format</button>
+    <br><br>
+
+    <label for="upload">Upload JSON file:</label>
+    <input type="file" id="upload" name="upload">
    <script type="text/javascript" src="src/index.js"></script>
 </body>
 </html>
