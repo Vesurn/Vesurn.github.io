@@ -6,12 +6,12 @@ const axisList = document.querySelector("#axis-list")
 
 
 createQuestion()
-function createQuestion() {
+function createQuestion({questionText: questionText = "", axis: axis = "", answers: answers = []} = {}) {
     const li = questionList.appendChild(document.createElement("li"))
     li.classList.add("question-item")
     const template = document.querySelector("#question-template")
     li.appendChild(template.content.cloneNode(true))
-
+    const answerList = li.querySelector("#answer-list")
     const addAnswerButton = li.querySelector("#add-answer-button")
     // Focus on the question input span element after creating a question
     li.querySelector("#question-text").focus()
@@ -19,30 +19,49 @@ function createQuestion() {
     //Append previously applied axis names
     submitAxises()
 
-    createAnswer(li.querySelector("#answer-list"))
-
-    addAnswerButton.onclick = () => {
-        createAnswer(li.querySelector("#answer-list"))
+    //Create an empty answer if no object is passed as parameter
+    if (arguments.length === 0) {
+        createAnswer(answerList)
     }
 
+    addAnswerButton.onclick = () => {
+        createAnswer(answerList)
+    }
+
+    // Render the question with the values provided
+    li.querySelector("#question-text").innerHTML = questionText
+    li.querySelector("#axis-select").value = axis
+    answers.forEach(answer => {
+        createAnswer(answerList, answer)
+    })
+
+    return li
 }
 
-function createAnswer(answerList) {
+function createAnswer(answerList, {answerText: answerText = "", value: value = 0} = {}) {
+    
     const li = answerList.appendChild(document.createElement("li"))
     li.classList.add("answer-item")
     const template = document.querySelector("#answer-template")
+    
     li.appendChild(template.content.cloneNode(true))
     li.querySelector("#answer-text").focus()
+
+    li.querySelector("#answer-text").innerHTML = answerText
+    li.querySelector("#answer-value").value = +value
+
+    return li
 }
 
 createAxis()
-function createAxis() {
+function createAxis(axis = "") {
     const li = axisList.appendChild(document.createElement("li"))
     li.classList.add("axis-item")
     const template = document.querySelector("#axis-template")
     li.appendChild(template.content.cloneNode(true))
 
     const input = li.querySelector("input")
+    input.value = axis
     input.focus()
     input.addEventListener("keydown", event => {
         if (event.key === "Enter") {
@@ -50,6 +69,8 @@ function createAxis() {
             createAxis()
         }
     })
+
+    return li
 }
 
 function submitAxises() {
@@ -77,7 +98,7 @@ function submitAxises() {
 }
 
 class Question {
-    constructor(questionText, Answers, axis) {
+    constructor(questionText, answers, axis) {
         this.questionText = questionText
         this.answers = answers
         this.axis = axis
@@ -92,7 +113,7 @@ class Answer {
 
 function readForm() {
     const questions = Array.from(questionList.querySelectorAll(".question-item"))
-    console.log(questions.map(question => questionToObject(question)))
+
     return questions.map(question => questionToObject(question))
 }
 
@@ -130,13 +151,38 @@ downloadButton.onclick = () => download("questions.json", JSON.stringify(readFor
 
 
 const uploadInput = document.querySelector("#upload")
-uploadInput.addEventListener("change", () => {
+uploadInput.addEventListener("change", function() {
     const file = this.files[0]
 
     // Read the contents of the file
     const reader = new FileReader()
     reader.onload = (e) => {
-
+        renderJSON(e.target.result)
     }
     reader.readAsText(file)
 })
+
+function renderJSON(json) {
+    if (arguments.length === 0) throw new Error("No arguments provided")
+    let questions = json
+    if (typeof json === "string") {
+        questions = JSON.parse(json)
+    }
+    
+    Array.from(axisList.children).forEach(child => child.remove()) // Remove all axises before rendering
+    getAxises(questions).forEach(axis => createAxis(axis))
+
+    Array.from(questionList.children).forEach(child => child.remove()) // Remove all question items before rendering
+    questions.forEach(question => {
+        createQuestion(question)
+    })
+}
+
+function getAxises(questionsObj) {
+    const axises = new Set()
+    questionsObj.forEach(question => {
+        axises.add(question.axis)
+    })
+    return Array.from(axises)
+}
+
