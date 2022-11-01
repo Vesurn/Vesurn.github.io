@@ -4,6 +4,7 @@
     border-radius: 4px;
     padding: 10px;
     margin: 10px;
+    position: relative;
 }
 
 #question-text {
@@ -19,8 +20,6 @@
     content: "Your question here...";
     color: gray;
 }
-
-
 
 #answer-list {
     padding: 0px 10px 10px 10px;

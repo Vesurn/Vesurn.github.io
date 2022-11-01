@@ -28,6 +28,8 @@ function createQuestion({questionText: questionText = "", axis: axis = "", answe
         createAnswer(answerList)
     }
 
+    li.querySelector("#close").onclick = () => li.remove()
+
     // Render the question with the values provided
     li.querySelector("#question-text").innerHTML = questionText
     li.querySelector("#axis-select").value = axis
@@ -46,6 +48,8 @@ function createAnswer(answerList, {answerText: answerText = "", value: value = 0
     
     li.appendChild(template.content.cloneNode(true))
     li.querySelector("#answer-text").focus()
+
+    li.querySelector("#close").onclick = () => li.remove()
 
     li.querySelector("#answer-text").innerHTML = answerText
     li.querySelector("#answer-value").value = +value
@@ -69,6 +73,8 @@ function createAxis(axis = "") {
             createAxis()
         }
     })
+    
+    li.querySelector("#close").onclick = () => li.remove()
 
     return li
 }

@@ -13,6 +13,7 @@
     <!-- Template for a question -->
     <template id="question-template">
         <label for="question-text">Question:</label>
+        <button style="position:absolute; right:0; top:0;" id="close">X</button>
         <span id="question-text" contenteditable role="textbox"></span>
         <div>Answers:</div>
         <ol type="a" id="answer-list">
@@ -29,13 +30,15 @@
 
     <!-- Template for an axis -->
     <template id="axis-template">
-        <input type="text" id="axis-name" placeholder="ex. left-right, authoritarian-liberal" style="width: 100%" autocomplete="off">
+        <input type="text" id="axis-name" placeholder="ex. left-right, liberal-authoritarian" style="width: 90%; box-sizing: border-box" autocomplete="off">
+        <button id="close">X</button>
     </template>
 
     <!-- Template for the answers and their point values -->
     <template id="answer-template">
         <label for="answer-value">Answer value:</label>
         <input type="number" placeholder="Value..." id="answer-value" style="width: 4em;" autocomplete="off">
+        <button id="close" style="margin-left:20px;">X</button>
         <span id="answer-text" contenteditable role="textbox"></span>
     </template>
 
