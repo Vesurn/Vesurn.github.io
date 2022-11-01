@@ -136,7 +136,7 @@ uploadInput.addEventListener("change", () => {
     // Read the contents of the file
     const reader = new FileReader()
     reader.onload = (e) => {
-        e.target.result
+
     }
     reader.readAsText(file)
 })
